@@ -9,11 +9,11 @@ namespace Ticketing.UI.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        private readonly IRabbitMqService _mqService;
+        private readonly IMessageQueue _mqService;
         private readonly IRequestService _requestService;
         private readonly ILog _logger;
 
-        public MessagesController(IRabbitMqService mqService, IRequestService requestService, ILog logger)
+        public MessagesController(IMessageQueue mqService, IRequestService requestService, ILog logger)
         {
             _mqService = mqService;
             _requestService = requestService;

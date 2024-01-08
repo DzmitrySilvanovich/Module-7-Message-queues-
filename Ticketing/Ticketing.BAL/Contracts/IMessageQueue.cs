@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ticketing.BAL.Contracts
 {
-    public interface IRabbitMqService
+    public interface IMessageQueue
     {
         void SendMessage(object obj);
         void SendMessage(string message);

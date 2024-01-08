@@ -1,6 +1,6 @@
-projectKey=Ticketing
+projectKey=Ticket
 serverUrl=http://localhost:9000
 serverVersion=10.3.0.82913
-dashboardUrl=http://localhost:9000/dashboard?id=Ticketing
-ceTaskId=AYwvWWzYlGxGzcWqaK-u
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYwvWWzYlGxGzcWqaK-u
+dashboardUrl=http://localhost:9000/dashboard?id=Ticket
+ceTaskId=AYzqYolyWWP3gdsdujIa
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYzqYolyWWP3gdsdujIa

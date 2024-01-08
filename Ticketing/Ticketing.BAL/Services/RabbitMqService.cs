@@ -8,7 +8,7 @@ using Ticketing.BAL.Options;
 
 namespace Ticketing.BAL.Services
 {
-    public class RabbitMqService : IRabbitMqService
+    public class RabbitMqService : IMessageQueue
     {
         private readonly IOptions<RabbitMqSettings> _options;
         private readonly ILog _logger;
@@ -29,9 +29,8 @@ namespace Ticketing.BAL.Services
             _logger.Debug($"RabbitMqService Send Message to Queue {_options.Value.QueueName}");
 
             var factory = new ConnectionFactory { HostName = _options.Value.HostName };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
+            using var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
                 channel.QueueDeclare(queue: _options.Value.QueueName,
                                durable: false,
                                exclusive: false,
@@ -44,7 +43,6 @@ namespace Ticketing.BAL.Services
                                routingKey: _options.Value.QueueName,
                                basicProperties: null,
                                body: body);
-            }
         }
     }
 }

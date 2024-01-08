@@ -39,9 +39,9 @@ namespace Ticketing.BAL.Services
             _logger.Info($"EmailService Start Send Email.");
             EmailNotification savedEmailNotification = await SaveNotificationAsync(emailNotification);
 
-            string? fromEmail = _optionsEmailSettings.Value.SenderEmail;
-            string? fromName = _optionsEmailSettings.Value.SenderName;
-            string? apiKey = _optionsEmailSettings.Value.ApiKey;
+            var fromEmail = _optionsEmailSettings.Value.SenderEmail;
+            var fromName = _optionsEmailSettings.Value.SenderName;
+            var apiKey = _optionsEmailSettings.Value.ApiKey;
             var sendGridClient = new SendGridClient(apiKey);
             var from = new EmailAddress(fromEmail, fromName);
             var to = new EmailAddress(emailNotification.Email, emailNotification.Name);
@@ -49,7 +49,6 @@ namespace Ticketing.BAL.Services
 
             var body = $"This is Email Notification order {emailNotification.OrderId} amount {emailNotification.OrderAmount} summary {emailNotification.OrderSummary}";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, body, "");
-
 
             savedEmailNotification.EmailRequestStatus = EmailRequestStatus.InProgress;
             await UpdateNotificationAsync(savedEmailNotification);
@@ -72,21 +71,16 @@ namespace Ticketing.BAL.Services
 
         private async Task<EmailNotification> SaveNotificationAsync(EmailNotification emailNotification)
         {
-            using (var scope = _serviceScopeFactory.CreateScope())
-            {
-                var myScopedService = scope.ServiceProvider.GetService<Repository<EmailNotification>>();
-                return await myScopedService.CreateAsync(emailNotification); ;
-            }
+            using var scope = _serviceScopeFactory.CreateScope();
+                  var myScopedService = scope.ServiceProvider.GetService<Repository<EmailNotification>>();
+                  return await myScopedService.CreateAsync(emailNotification);
         }
 
         private async Task UpdateNotificationAsync(EmailNotification emailNotification)
         {
-            using (var scope = _serviceScopeFactory.CreateScope())
-            {
-                var myScopedService = scope.ServiceProvider.GetService<Repository<EmailNotification>>();
-
-                await myScopedService.UpdateAsync(emailNotification); ;
-            }
+            using var scope = _serviceScopeFactory.CreateScope();
+                  var myScopedService = scope.ServiceProvider.GetService<Repository<EmailNotification>>();
+            await myScopedService.UpdateAsync(emailNotification);
         }
 
         private AsyncRetryPolicy<Response> RetryPolicy(int retryCount, double waitMinutes)

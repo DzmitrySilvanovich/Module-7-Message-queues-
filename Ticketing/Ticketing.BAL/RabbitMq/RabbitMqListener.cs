@@ -45,7 +45,10 @@ namespace Ticketing.BAL.RabbitMq
                 var email = JsonSerializer.Deserialize<EmailNotification>(content, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                 _channel.BasicAck(ea.DeliveryTag, false);
-                await _emailService.SendEmailAsync(email);
+                if (email is not null)
+                {
+                    await _emailService.SendEmailAsync(email);
+                }
             };
 
             _channel.BasicConsume(_options.Value.QueueName, false, consumer);
@@ -55,6 +58,7 @@ namespace Ticketing.BAL.RabbitMq
 
         public override void Dispose()
         {
+            GC.SuppressFinalize(this);
             _channel.Close();
             _connection.Close();
             base.Dispose();

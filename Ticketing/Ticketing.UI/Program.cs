@@ -69,7 +69,7 @@ else
     builder.Services.AddScoped(typeof(PessimisticRepository<>));
 }
 
-builder.Services.AddScoped<IRabbitMqService, RabbitMqService>();
+builder.Services.AddScoped<IMessageQueue, RabbitMqService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<ICacheAdapter, MemoryCacheAdapter>();
 

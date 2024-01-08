@@ -8,13 +8,13 @@ namespace Ticketing.BAL.Services
 {
     public class CachedObject
     {
-        public object value;
-        public CancellationTokenSource tokenSource;
+        public object? value;
+        public CancellationTokenSource? tokenSource;
     }
 
     public class MemoryCacheAdapter : ICacheAdapter
     {
-        ConcurrentDictionary<string, CachedObject> cacheVlues = new ConcurrentDictionary<string, CachedObject>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, CachedObject> cacheVlues = new ConcurrentDictionary<string, CachedObject>(StringComparer.OrdinalIgnoreCase);
 
         private readonly IMemoryCache _cache;
         IConfiguration _configuration;

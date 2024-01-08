@@ -6,6 +6,7 @@ using Ticketing.DAL.Repositories;
 using Mapster;
 using log4net;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ticketing.BAL.Services
 {
@@ -37,7 +38,8 @@ namespace Ticketing.BAL.Services
             var sections = _repositorySection.GetAll();
 
             _logger.Info($"VenueService Return SGetSectionsOfVenue. {venueId}");
-            return await Task.FromResult<IEnumerable<SectionReturnModel>>(sections.Where(s => s.VenueId == venueId).ProjectToType<SectionReturnModel>().ToList());
+            var result = await sections.Where(s => s.VenueId == venueId).ProjectToType<SectionReturnModel>().ToListAsync();
+            return result;
         }
     }
 }
